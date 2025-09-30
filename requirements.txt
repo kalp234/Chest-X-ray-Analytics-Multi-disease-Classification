@@ -1,0 +1,26 @@
+# Core ML libraries
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
+
+# For data processing
+numpy
+pandas
+Pillow
+scikit-learn
+opencv-python
+
+# For visualization and Grad-CAM
+matplotlib
+
+# For training progress bars
+tqdm
+
+# Django backend
+Django>=4.2
+djangorestframework
+django-cors-headers
+
+# Deployment (optional but recommended)
+gunicorn
+whitenoise
