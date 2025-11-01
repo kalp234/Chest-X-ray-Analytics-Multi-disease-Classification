@@ -1,2 +1,88 @@
-.venv/
+# =========================
+# Frontend (React)
+# =========================
+frontend/node_modules/
+frontend/build/
+frontend/.env
+frontend/.env.local
+frontend/.pnp
+frontend/pnpm-lock.yaml
+frontend/yarn.lock
+frontend/package-lock.json
+
+# Editor settings
+frontend/.vscode/
+frontend/.idea/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+
+# =========================
+# Backend (Node / Express)
+# =========================
+backend/node_modules/
+backend/.env
+backend/.env.local
+backend/.pnp
+backend/yarn.lock
+backend/package-lock.json
+backend/uploads/
+backend/logs/
+
+# =========================
+# Python files
+# =========================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pdb
+*.so
+*.egg
+*.egg-info/
+.env/
 venv/
+env/
+ENV/
+.ipynb_checkpoints
+*.log
+
+# =========================
+# Common folders & OS files
+# =========================
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# =========================
+# Image / Dataset (optional — uncomment if large)
+# =========================
+# *.png
+# *.jpg
+# *.jpeg
+# *.gif
+# *.svg
+# datasets/
+# data/
+# images/
+# temp/
+
+# =========================
+# IDE / Editor
+# =========================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# =========================
+# Misc
+# =========================
+*.bak
+*.tmp
+*.log
