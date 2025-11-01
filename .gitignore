@@ -86,3 +86,10 @@ Desktop.ini
 *.bak
 *.tmp
 *.log
+# =========================
+# Models (PyTorch, TensorFlow, etc.)
+# =========================
+models/*.pth
+models/*.pt
+models/*.h5
+models/*.ckpt
