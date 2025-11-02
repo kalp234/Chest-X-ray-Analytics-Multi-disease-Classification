@@ -4,7 +4,8 @@ A deep learning–powered web application for **multi-label chest disease classi
 
 ---
 
-## 🚀 Overview
+🚀 Live Overview
+Check our Website : 
 
 This project is an **AI-driven diagnostic assistant** designed to analyze chest X-rays and identify multiple thoracic diseases simultaneously.
 It provides not only predictions but also **visual explanations** using **Grad-CAM heatmaps**, promoting transparency and clinical interpretability.
@@ -219,15 +220,4 @@ This project is released under the **MIT License** — free for academic and res
 | **Ketul Pandya**      | BITS Pilani, Goa Campus |
 | **Mohd. Junaid**      | BITS Pilani, Goa Campus |
 | **Tanishq Hulyalkar** | BITS Pilani, Goa Campus |
-
----
-
-## ⭐ Acknowledgements
-
-* NIH ChestX-ray14 Dataset
-* TorchVision & TIMM Libraries
-* FastAPI Community
-* Grad-CAM++ & Explainable AI Literature
-
----
 
