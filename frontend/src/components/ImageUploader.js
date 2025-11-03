@@ -7,90 +7,109 @@ import MetricsPlot from "./MetricsPlot";
 export default function ImageUploader() {
   const [file, setFile] = useState(null);
   const [predictions, setPredictions] = useState([]);
-  const [gradcamB64, setGradcamB64] = useState(null);
+  const [gradcamImages, setGradcamImages] = useState(null); // {original, heatmap, overlay}
   const [loading, setLoading] = useState(false);
   const [metrics, setMetrics] = useState(null);
 
+  // -------------------------------
+  // Handle file input change
+  // -------------------------------
   const onFileChange = (e) => {
     setFile(e.target.files[0]);
     setPredictions([]);
-    setGradcamB64(null);
+    setGradcamImages(null);
     setMetrics(null);
   };
 
-  // ----------------------------
-  // Run Ensemble Prediction
-  // ----------------------------
+  // -------------------------------
+  // Predict button action
+  // -------------------------------
   const submitPredict = async () => {
-    if (!file) return alert("Choose an image first");
+    if (!file) return alert("Choose an image first!");
     setLoading(true);
     try {
       const data = await predictXray(file);
-      console.log("Prediction Response:", data);
+      console.log("✅ Predict API Response:", data);
       setPredictions(data.predictions || []);
     } catch (err) {
-      console.error(err);
-      alert("Prediction failed");
+      console.error("❌ Prediction Error:", err);
+      alert("Prediction failed. Check backend logs.");
     } finally {
       setLoading(false);
     }
   };
 
-  // ----------------------------
-  // Run Grad-CAM Explainability
-  // ----------------------------
+  // -------------------------------
+  // Explain button action (Grad-CAM)
+  // -------------------------------
   const submitExplain = async () => {
-    if (!file) return alert("Choose an image first");
-    if (predictions.length === 0) {
-      alert("Run Predict first to choose the most confident class.");
-      return;
-    }
-
+    if (!file) return alert("Choose an image first!");
     setLoading(true);
     try {
-      // Automatically use top predicted class index (most confident)
-      const topClassIndex = 0; 
-      const data = await explainXray(file, topClassIndex);
+      const data = await explainXray(file, null); // Let backend pick top predicted class
+      console.log("✅ Explain API Response:", data);
 
-      console.log("Explain Response:", data);
-      setGradcamB64(data.gradcam_b64 || null);
+      setGradcamImages({
+        original: data.original_b64,
+        heatmap: data.heatmap_b64,
+        overlayWithBox: data.bbox_b64 || data.overlay_b64,
+      });
+
+      setPredictions(data.predictions || []);
       setMetrics(data.metrics || null);
-      setPredictions(data.predictions || predictions);
     } catch (err) {
-      console.error(err);
-      alert("Grad-CAM generation failed");
+      console.error("❌ Explain Error:", err);
+      alert("Explain failed. Check backend logs.");
     } finally {
       setLoading(false);
     }
   };
 
+  // -------------------------------
+  // Render UI
+  // -------------------------------
   return (
-    <div className="uploader">
-      <input type="file" onChange={onFileChange} accept="image/*" />
+    <div className="uploader" style={{ textAlign: "center", marginTop: "20px" }}>
 
-      <div className="buttons">
+      <input
+        type="file"
+        onChange={onFileChange}
+        accept="image/*"
+        style={{ marginTop: "15px" }}
+      />
+
+      <div className="buttons" style={{ marginTop: "16px", display: "flex", justifyContent: "center", gap: "12px" }}>
         <button onClick={submitPredict} disabled={loading}>
-          Predict
+          🔍 Predict
         </button>
         <button onClick={submitExplain} disabled={loading}>
-          Explain (Grad-CAM)
+          🔬 Explain (Grad-CAM)
         </button>
       </div>
 
-      {predictions.length > 0 && (
-        <PredictionTable data={predictions} />
+      {loading && <p style={{ marginTop: "15px" }}>Processing... ⏳</p>}
+
+      {predictions && predictions.length > 0 && (
+        <div style={{ marginTop: "25px" }}>
+          <PredictionTable data={predictions} />
+        </div>
       )}
 
-      {gradcamB64 && file && (
-        <GradcamOverlay
-          gradcam={gradcamB64}
-          original={URL.createObjectURL(file)} // show uploaded X-ray
-        />
+      {gradcamImages && (
+        <div style={{ marginTop: "25px" }}>
+          <GradcamOverlay
+            original={gradcamImages.original}
+            heatmap={gradcamImages.heatmap}
+            overlayWithBox={gradcamImages.overlayWithBox}
+          />
+        </div>
       )}
 
-      {metrics && <MetricsPlot metrics={metrics} />}
-
-      {loading && <p>Processing...</p>}
+      {metrics && (
+        <div style={{ marginTop: "25px" }}>
+          <MetricsPlot metrics={metrics} />
+        </div>
+      )}
     </div>
   );
 }
