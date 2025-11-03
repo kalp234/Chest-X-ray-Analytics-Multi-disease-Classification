@@ -133,7 +133,7 @@ Access the app at:
 
 |           Original X-Ray          |          Grad-CAM Heatmap         |                Overlay               |
 | :-------------------------------: | :-------------------------------: | :----------------------------------: |
-| ![Original](data/sample_xray.jpg) | ![GradCAM](data/gradcam_only.png) | ![Overlay](data/gradcam_overlay.png) |
+| ![Original](data/test.jpg) | ![GradCAM](data/gradcam_only.png) | ![Overlay](data/gradcam_overlay.png) |
 
 ---
 
